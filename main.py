@@ -1,26 +1,23 @@
-import streamlit as st
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
-def scrape_data(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    titles = [title.string for title in soup.find_all('title')]
-    paragraphs = [p.text for p in soup.find_all('p')]
-    return titles, paragraphs
+url = "https://example.com/allama-iqbal"  # Replace with the actual URL of the webpage containing the information
 
-st.title("Data Scraping App")
-url = st.text_input("Enter the URL to scrape")
+# Fetch the webpage content
+response = requests.get(url)
+html_content = response.content
 
-if st.button("Scrape"):
-    if url:
-        titles, paragraphs = scrape_data(url)
-        st.write("Titles:")
-        for title in titles:
-            st.write(title)
-       
-        st.write("Paragraphs:")
-        for paragraph in paragraphs:
-            st.write(paragraph)
-    else:
-        st.warning("Please enter a valid URL.")
+# Parse the HTML using BeautifulSoup
+soup = BeautifulSoup(html_content, "html.parser")
+
+# Find the elements containing birth and death dates
+birth_date_element = soup.find("span", {"class": "birth-date"})
+death_date_element = soup.find("span", {"class": "death-date"})
+
+# Extract the dates
+birth_date = birth_date_element.text.strip() if birth_date_element else "N/A"
+death_date = death_date_element.text.strip() if death_date_element else "N/A"
+
+# Print the dates
+print("Birth Date:", birth_date)
+print("Death Date:", death_date)
