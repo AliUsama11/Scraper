@@ -6,11 +6,9 @@ def scrape_specific_data(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    # Find the specific element(s) you want to scrape
-    # Replace 'element_tag' with the HTML tag of the specific element
+   
     specific_elements = soup.find_all('element_tag')
 
-    # Extract the desired data from the specific elements
     scraped_data = [element.text for element in specific_elements]
 
     return scraped_data
