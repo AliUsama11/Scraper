@@ -2,24 +2,25 @@ import streamlit as st
 from bs4 import BeautifulSoup
 import requests
 
-def scrape_specific_data(url):
+def scrape_data(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
+    titles = [title.string for title in soup.find_all('title')]
+    paragraphs = [p.text for p in soup.find_all('p')]
+    return titles, paragraphs
 
-   
-    specific_elements = soup.find_all('element_tag')
+st.sidebar.title("Data Scraping App")
+url = st.sidebar.text_input("Enter the URL to scrape")
 
-    scraped_data = [element.text for element in specific_elements]
-
-    return scraped_data
-
-st.title("Specific Data Scraping App")
-url = st.text_input("Enter the URL to scrape")
-
-if st.button("Scrape"):
+if st.sidebar.button("Scrape"):
     if url:
-        scraped_data = scrape_specific_data(url)
-        for data in scraped_data:
-            st.write(data)
+        titles, paragraphs = scrape_data(url)
+        st.write("Titles:")
+        for title in titles:
+            st.write(title)
+       
+        st.write("Paragraphs:")
+        for paragraph in paragraphs:
+            st.write(paragraph)
     else:
-        st.warning("Please enter a valid URL.")
+        st.sidebar.warning("Please enter a valid URL.")
