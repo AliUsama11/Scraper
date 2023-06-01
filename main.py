@@ -6,7 +6,7 @@ def scrape_data(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     titles = [title.string for title in soup.find_all('title')]
-    paragraphs = [p.text for p in soup.find_born('p')]
+    paragraphs = [p.text for p in soup.find_all('p')]
     return titles, paragraphs
 
 st.title("Data Scraping App")
