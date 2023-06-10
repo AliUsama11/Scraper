@@ -18,3 +18,7 @@ if st.button("Scrape"):
         st.write("Titles:")
         for title in titles:
             st.write(title)
+        
+        st.write("Paragraphs:")
+        for paragraph in paragraphs:
+            st.write(paragraph)
